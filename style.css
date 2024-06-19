@@ -1,0 +1,38 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+li {
+    list-style-type: none;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 32px;
+    gap: 32px;
+  }
+
+  ul {
+    display: flex;
+    gap: 32px;
+  }
+
+  .btn {
+    padding: 4px 16px;
+  }
+
+  .content,
+  .results {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0px 32px 32px;
+    gap: 16px
+  }
