@@ -2,6 +2,16 @@ let computerChoice
 let humanChoice
 let humanScore = 0
 let computerScore = 0
+let result
+
+const buttons = document.querySelectorAll(".btn");
+
+buttons.forEach(function(button) {
+    button.addEventListener("click", function() {
+      humanChoice = button.textContent;
+      playGame();
+    });
+  });
 
 function getComputerChoice(min, max) {
     const minCeiled = Math.ceil(min);
@@ -16,22 +26,8 @@ function getComputerChoice(min, max) {
     }
 }
 
-function getHumanChoice(){
-    let humanNumber = +prompt("What is your choice? (Between 1 and 3)?")
-    if (humanNumber === 1) {
-        humanChoice = "Rock"
-    } else if (humanNumber === 2) {
-        humanChoice = "Paper"
-    } else if (humanNumber === 3) {
-        humanChoice = "Scissors"
-    } else {
-        humanChoice = "Please choose a valid number."
-    }
-}
-
 function playRound() {
     getComputerChoice(1,3)
-    getHumanChoice()
     if (humanChoice === computerChoice) {
         result = "That's a tie"
     } else if ((computerChoice === "Rock" && humanChoice === "Scissors") || (computerChoice === "Paper" && humanChoice === "Rock") || (computerChoice === "Scissors" && humanChoice === "Paper")) {
@@ -41,17 +37,38 @@ function playRound() {
         result = "You win. " + humanChoice + " wins " + computerChoice;
         humanScore = ++humanScore;
     }
-    console.log(result)
+
+    const results = document.querySelector(".results");
+    const resultItem = document.createElement("p");
+    resultItem.textContent = result;
+    results.appendChild(resultItem);
+    
+    const score = document.querySelector(".score");
+    score.textContent = `Human: ${humanScore} Computer: ${computerScore}`;
+
+    if (humanScore === 5 || computerScore === 5) {
+        const finalResult = document.createElement("h3");
+        if (humanScore === 5) {
+            finalResult.textContent = "You win!";
+            results.insertBefore(finalResult,results.firstChild);
+            buttons.forEach(function(button) {
+                button.disabled = true
+            });
+        } else {
+            finalResult.textContent = "You lose!";
+            results.insertBefore(finalResult,results.firstChild);
+            buttons.forEach(function(button) {
+                button.disabled = true
+            });}
+        const reloadButton = document.createElement("button");
+        reloadButton.textContent = "Play again!";
+        results.insertBefore(reloadButton,results.firstChild)
+        reloadButton.addEventListener("click", function() {
+              location.reload();
+            });
+    };
 }
 
 function playGame(){
-    let games = 0
-    while (games < 5){
-        ++games;
-        playRound(humanChoice,computerChoice)
-        console.log("Human Score is: " + humanScore)
-        console.log("Computer Score is: " + computerScore)
-    }
+    playRound()
 }
-
-playGame()
